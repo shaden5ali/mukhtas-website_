@@ -1,306 +1,769 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>اختبار تحديد التخصص</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار الميول الهندسية</title>
 
-<!--  نوع خط الابوننيقCairo -->
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
+* {
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
 body {
-    font-family: 'Cairo', sans-serif;
-    background: linear-gradient(135deg, #86a1d7, #051a39);
-    margin: 0;
-    padding: 0;
-    direction: rtl;
-     margin: 0;
-  max-width: 1200px;
-  margin: auto;
-}
-img {
-  max-width: 100%;
-  height: auto;
+background:#fffdf7;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
 }
 
-/* شاشة البداية */
-#introScreen {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(5,26,57,0.95), rgba(134,161,215,0.95));
+/* Overlay */
+
+.system-overlay{
+position:fixed;
+inset:0;
+background:#fffdf7;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+transition:1s ease;
+}
+
+.control-panel{
+background:#17110d;
+padding:50px;
+border-radius:25px;
+text-align:center;
+width:420px;
+color:white;
+box-shadow:0 0 40px rgba(255,111,0,0.2);
+}
+
+.control-panel h2{
+color:#ff6f00;
+margin-bottom:10px;
+}
+
+#systemStatus{
+margin-bottom:20px;
+color:#aaa;
+}
+
+.lights{
+display:flex;
+justify-content:center;
+gap:15px;
+margin-bottom:20px;
+}
+
+.light{
+width:15px;
+height:15px;
+border-radius:50%;
+background:#333;
+transition:0.3s;
+}
+
+.light.active{
+background:#ff6f00;
+box-shadow:0 0 10px #ff6f00;
+}
+
+.loader{
+width:100%;
+height:6px;
+background:#333;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:25px;
+}
+
+.loader-bar{
+width:0%;
+height:100%;
+background:#ff6f00;
+transition:0.3s;
+}
+
+.activate-btn{
+padding:12px 30px;
+border:none;
+border-radius:30px;
+background:#ff6f00;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+.activate-btn:hover{
+background:#e65100;
+}
+
+/* Quiz */
+
+.quiz-container{
+width:600px;
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 20px 40px rgba(0,0,0,0.08);
+display:flex;
+flex-direction:row-reverse;
+align-items:flex-start;
+gap:20px;
+position:relative;
+}
+
+.progress-container{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:5px;
+}
+
+.quiz-percentage{
+font-weight:bold;
+font-size:18px;
+color:#333;
+}
+
+.progress-vertical{
+width:15px;
+height:350px;
+background:#eee;
+border-radius:20px;
+overflow:hidden;
+position:relative;
+}
+
+.progress-bar{
+width:100%;
+height:0%;
+position:absolute;
+bottom:0;
+border-radius:20px;
+background:linear-gradient(to top,#ff6f00,#ffd180);
+transition:0.4s;
+}
+
+.quiz-content{
+flex:1;
+text-align:right;
+position:relative;
+}
+
+.quiz-content h2{
+color:#ff6f00;
+margin-bottom:10px;
+}
+
+.question{
+font-size:20px;
+margin-bottom:20px;
+color:#333;
+}
+
+.options button{
+width:100%;
+padding:15px;
+margin-bottom:15px;
+border:none;
+border-radius:15px;
+background:#fff3e0;
+cursor:pointer;
+transition:0.3s;
+font-size:16px;
+text-align:right;
+}
+
+.options button:hover{
+background:#ffe0b2;
+transform:translateY(-3px);
+}
+
+.options button.selected{
+background:#ffcc80;
+}
+
+.next-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:20px;
+background:#ff6f00;
+color:white;
+font-size:16px;
+cursor:pointer;
+margin-top:10px;
+display:none;
+}
+
+.prev-btn{
+display:flex;
+align-items:center;
+gap:8px;
+justify-content:flex-end;
+background-color:#f7ab75;
+border-radius:15px;
+padding:10px 15px;
+border:none;
+cursor:pointer;
+font-size:15px;
+margin-bottom:15px;
+color:white;
+width:115%;
+position:absolute;
+top:-100px;
+right:0;
+}
+.result-prev-btn {
+    width: 100%;
+    max-width: 600px;
+    top: -60px;
+    position: absolute;
+    border-radius: 15px;
+    padding: 10px 15px;
+    cursor: pointer;
+
     display: flex;
-    align-items: center;
     justify-content: center;
-    z-index: 9999;
-    animation: fadeOut 1s ease forwards;
-    animation-delay: 3.5s;
-}
+    align-items: center;
+    gap: 8px;
 
-.intro-content {
-    text-align: center;
+    background-color: #17110d;
     color: white;
-    animation: introZoom 2s ease;
+    font-size: 16px;
+    transition: 0.3s;
 }
 
-.intro-content h1 {
-    font-size: 48px;
-    margin: 10px 0;
-    font-weight: 700;
+.result-prev-btn:hover {
+    background-color: #555;
 }
 
-.intro-content h2 {
-    font-size: 28px;
-    opacity: 0.9;
-    font-weight: 600;
+.result-prev-btn:active {
+    background-color: #777;
 }
 
-.intro-content p {
-    margin-top: 15px;
-    font-size: 18px;
-    opacity: 0.8;
+.result-prev-btn span {
+    transform: rotate(0deg);
 }
 
-/* حركة الدخول */
-@keyframes introZoom {
-    from {
-        opacity: 0;
-        transform: scale(0.7);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+/* Result */
+
+.result-container{
+width:600px;
+background:#17110d;
+padding:50px;
+border-radius:25px;
+text-align:center;
+color:white;
+box-shadow:0 0 40px rgba(255,111,0,0.2);
+position:relative;
 }
 
-/* حركة الخروج */
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-        visibility: hidden;
-    }
+.result-container h2{
+color:#ff6f00;
+margin-bottom:20px;
 }
 
-/* المحتوى بالبداية */
-.container {
-    max-width: 850px;
-    background: #f5f5efd3;
-    margin: 50px auto;
-    padding: 40px;
-    border-radius: 18px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    opacity: 0;
-    animation: showContent 1s ease forwards;
-    animation-delay: 3.5s;
+.result-field{
+font-size:28px;
+font-weight:bold;
+color:#ff6f00;
+margin-top:20px;
 }
 
-@keyframes showContent {
-    to {
-        opacity: 1;
-    }
+/* شريط السؤال الحاسم */
+.decisive-banner {
+  position: absolute;
+  left: -270px;
+  top: -10px;
+  background: #f69b56;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.8s ease;
+  z-index: 10;
 }
-
-h1 {text-align: center; color: #08255b; margin-bottom: 8px; font-weight:700;}
-.subtitle {text-align:center; color: #555; margin-bottom: 35px; font-size:16px;}
-.question {margin-bottom:28px;}
-.question h3 {font-size:18px; margin-bottom:12px; color:#222; font-weight:600;}
-.options label {
-    display:block;
-    background:#f5f7fb;
-    padding:14px 16px;
-    border-radius:12px;
-    margin-bottom:10px;
-    cursor:pointer;
-    transition:0.3s ease;
-}
-.options label:hover {
-    background:#9bb4f0;
-    transform:translateX(-4px);
-}
-input[type="radio"] {margin-left:10px;}
-button {
-    width:100%;
-    padding:16px;
-    background: linear-gradient(135deg, #252a33, #3b82f6);
-    color:#fff;
-    border:none;
-    border-radius:14px;
-    font-size:18px;
-    cursor:pointer;
-    margin-top:20px;
-    transition:0.3s;
-    font-family: 'Cairo', sans-serif;
-}
-button:hover {
-    transform:translateY(-2px);
-    box-shadow:0 10px 20px rgba(30,94,216,0.3);
-}
-.result {
-    display:none;
-    margin-top:35px;
-    padding:30px;
-    border-radius:16px;
-    text-align:center;
-    font-size:20px;
-    animation:slideFade 0.8s ease forwards;
-    font-weight:600;
-}
-.result.hr {background: #d0e1f7; color: #0b5394;}
-.result.admin {background: #eefaf4; color: #1d6f42;}
-@keyframes slideFade {
-    from {opacity:0; transform:translateY(35px);}
-    to {opacity:1; transform:translateY(0);}
+.decisive-banner.show {
+  opacity: 1;
+  transform: translateX(0);
 }
 </style>
 </head>
 
 <body>
 
-<!-- شاشة البداية -->
-<div id="introScreen">
-    <div class="intro-content">
-        <h2>جاوب على الأسئلة</h2>
-        <h1>واعرف مسارك المهني</h1>
-        <p>اختبار ذكي يرشّح لك التخصص الأنسب لك</p>
-    </div>
+<div class="system-overlay" id="systemOverlay">
+<div class="control-panel">
+<h2>نظام تحليل الميول الهندسية</h2>
+<p id="systemStatus">الحالة: غير مفعل</p>
+
+<div class="lights">
+<span class="light"></span>
+<span class="light"></span>
+<span class="light"></span>
+<span class="light"></span>
 </div>
 
-<div class="container">
-    <h1>اختبار تحديد التخصص المناسب</h1>
-    <p class="subtitle">أجب بصدق، وسيتم ترشيح التخصص الأنسب لك بناءً على مهاراتك وميولك</p>
+<div class="loader">
+<div class="loader-bar" id="loaderBar"></div>
+</div>
 
-    <form id="testForm">
+<button class="activate-btn" id="activateBtn">تشغيل النظام</button>
 
-        <div class="question">
-            <h3>1. هل تستمتع بالتعامل مع الموظفين وحل مشاكلهم؟</h3>
-            <div class="options">
-                <label><input type="radio" name="q1" value="hr"> نعم</label>
-                <label><input type="radio" name="q1" value="half_hr"> إلى حد ما</label>
-                <label><input type="radio" name="q1" value=""> لا</label>
-            </div>
-        </div>
+</div>
+</div>
 
-        <div class="question">
-            <h3>2. هل تفضل الأعمال التي تعتمد على التواصل والعلاقات؟</h3>
-            <div class="options">
-                <label><input type="radio" name="q2" value="hr"> نعم</label>
-                <label><input type="radio" name="q2" value="half_hr"> إلى حد ما</label>
-                <label><input type="radio" name="q2" value=""> لا</label>
-            </div>
-        </div>
+<div class="quiz-container">
 
-        <div class="question">
-            <h3>3. هل لديك قدرة على الاستماع للآخرين والتفاهم معهم؟</h3>
-            <div class="options">
-                <label><input type="radio" name="q3" value="hr"> نعم</label>
-                <label><input type="radio" name="q3" value="half_hr"> إلى حد ما</label>
-                <label><input type="radio" name="q3" value=""> لا</label>
-            </div>
-        </div>
+<div class="progress-container">
+<div class="quiz-percentage" id="quizPercentage">0%</div>
 
-        <div class="question">
-            <h3>4. هل تهتم بتطوير الموظفين وتحفيزهم؟</h3>
-            <div class="options">
-                <label><input type="radio" name="q4" value="hr"> نعم</label>
-                <label><input type="radio" name="q4" value="half_hr"> إلى حد ما</label>
-                <label><input type="radio" name="q4" value=""> لا</label>
-            </div>
-        </div>
+<div class="progress-vertical">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+</div>
 
-        <div class="question">
-            <h3>5. هل تفضل تنظيم الملفات والمستندات؟</h3>
-            <div class="options">
-                <label><input type="radio" name="q5" value="admin"> نعم</label>
-                <label><input type="radio" name="q5" value="half_admin"> إلى حد ما</label>
-                <label><input type="radio" name="q5" value=""> لا</label>
-            </div>
-        </div>
+<div class="quiz-content">
 
-        <div class="question">
-            <h3>6. هل تشعر بالراحة في الأعمال المكتبية الروتينية؟</h3>
-            <div class="options">
-                <label><input type="radio" name="q6" value="admin"> نعم</label>
-                <label><input type="radio" name="q6" value="half_admin"> إلى حد ما</label>
-                <label><input type="radio" name="q6" value=""> لا</label>
-            </div>
-        </div>
+<h2>اختبار تحديد التخصص الهندسي</h2>
 
-        <div class="question">
-            <h3>7. هل تهتم بالدقة والتفاصيل في العمل؟</h3>
-            <div class="options">
-                <label><input type="radio" name="q7" value="admin"> نعم</label>
-                <label><input type="radio" name="q7" value="half_admin"> إلى حد ما</label>
-                <label><input type="radio" name="q7" value=""> لا</label>
-            </div>
-        </div>
+<button class="prev-btn" id="prevBtn">➔ السؤال السابق</button>
 
-        <div class="question">
-            <h3>8. هل تفضل العمل بهدوء خلف المكتب؟</h3>
-            <div class="options">
-                <label><input type="radio" name="q8" value="admin"> نعم</label>
-                <label><input type="radio" name="q8" value="half_admin"> إلى حد ما</label>
-                <label><input type="radio" name="q8" value=""> لا</label>
-            </div>
-        </div>
+<div class="question" id="question"></div>
 
-        <div class="question">
-            <h3>9. لو أُعطيت الخيار، أي عمل تفضّل أكثر؟</h3>
-            <div class="options">
-                <label><input type="radio" name="tie" value="hr"> التعامل مع الموظفين وحل مشاكلهم</label>
-                <label><input type="radio" name="tie" value="admin"> تنظيم الملفات والأعمال الإدارية</label>
-            </div>
-        </div>
+<div class="options" id="options"></div>
 
-        <button type="button" onclick="calculateResult()">عرض النتيجة</button>
-    </form>
+<button class="next-btn" id="nextBtn">التالي</button>
 
-    <div id="resultHR" class="result hr"></div>
-    <div id="resultAdmin" class="result admin"></div>
+</div>
 </div>
 
 <script>
-const urlParams = new URLSearchParams(window.location.search);
-const section = urlParams.get('section');
-if(section === "diplomas"){
-    document.querySelector('h1').textContent = "اختبار تحديد التخصص المناسب لك ";
+
+const activateBtn=document.getElementById("activateBtn");
+const systemOverlay=document.getElementById("systemOverlay");
+const systemStatus=document.getElementById("systemStatus");
+const lights=document.querySelectorAll(".light");
+const loaderBar=document.getElementById("loaderBar");
+
+activateBtn.onclick=()=>{
+
+activateBtn.disabled=true;
+
+systemStatus.innerText="جاري تهيئة النظام...";
+
+let progress=0;
+let lightIndex=0;
+
+const interval=setInterval(()=>{
+
+progress+=5;
+
+loaderBar.style.width=progress+"%";
+
+if(lightIndex<lights.length){
+
+lights[lightIndex].classList.add("active");
+
+lightIndex++;
+
 }
 
-function calculateResult() {
-    const tie = document.querySelector('input[name="tie"]:checked');
-    if (!tie) {
-        alert("يجب عليك الاجابة على السوال الاخير ");
-        return;
-    }
+if(progress>=100){
 
-    let hr = 0;
-    let admin = 0;
+clearInterval(interval);
 
-    document.querySelectorAll('input[type="radio"]:checked').forEach(a => {
-        if (a.value === "hr") hr += 2;
-        if (a.value === "half_hr") hr += 1;
-        if (a.value === "admin") admin += 2;
-        if (a.value === "half_admin") admin += 1;
-    });
+systemStatus.innerText="تم تفعيل النظام ✔";
 
-    if(tie.value==="hr") hr+=3;
-    if(tie.value==="admin") admin+=3;
+setTimeout(()=>{
 
-    const resultHR=document.getElementById("resultHR");
-    const resultAdmin=document.getElementById("resultAdmin");
-    resultHR.style.display="none";
-    resultAdmin.style.display="none";
+systemOverlay.style.opacity="0";
 
-    if(hr>admin){
-        resultHR.innerHTML=`التخصص الأنسب لك هو <strong>الموارد البشرية</strong>`;
-        resultHR.style.display="block";
-        resultHR.scrollIntoView({behavior:"smooth"});
-    } else {
-        resultAdmin.innerHTML=`التخصص الأنسب لك هو <strong>الإدارة المكتبية</strong>`;
-        resultAdmin.style.display="block";
-        resultAdmin.scrollIntoView({behavior:"smooth"});
-    }
+setTimeout(()=>{
+
+systemOverlay.style.display="none";
+
+},1000);
+
+},1000);
+
 }
+
+},150);
+
+};
+
+const questions = [
+
+{
+question:"لو عندك لاب في الجامعة، أي تجربة تفضّل؟",
+options:[
+"أ) تجربة محرك أو آلة لمعرفة كيف تتحرك الأجزاء وتعمل معًا.",
+"ب) بناء دائرة إلكترونية أو جهاز صغير لمعرفة كيف تنتقل الكهرباء وتتحكم الإشارات.",
+"ج) اختبار الخرسانة أو مواد البناء لمعرفة كيف تتحمل المباني الأحمال."
+]
+},
+
+{
+question:"أي موضوع يجذبك أكثر؟",
+options:[
+"أ) معرفة كيف تعمل المحركات والآلات وتقوم بالحركة بطريقة دقيقة.",
+"ب) فهم كيف تنتقل الكهرباء وتعمل الأجهزة الذكية.",
+"ج) دراسة كيف تتحمل المباني والجسور الأحمال وتبقى ثابتة."
+]
+},
+
+{
+question:"أي نوع رسومات تحب أكثر؟",
+options:[
+"أ) رسومات الآلات والأجزاء الميكانيكية لتفهم كيفية الحركة.",
+"ب) مخططات الدوائر الكهربائية والإلكترونية لفهم الأسلاك والمكونات.",
+"ج) مخططات المباني والجسور لرؤية كيفية توزيع القوى."
+]
+},
+
+{
+question:"أي شيء تحب تفهمه بعمق؟",
+options:[
+"أ) كيف تتحرك الأشياء وتعمل الآلات بأجزاءها المختلفة.",
+"ب) كيف تنتقل الطاقة والإشارات بين الأجهزة لتعمل بشكل صحيح.",
+"ج) كيف تصمد المباني والجسور تحت الأحمال المختلفة."
+]
+},
+
+{
+question:"تحب تشتغل على:",
+options:[
+"أ) أجزاء ميكانيكية تتحرك معًا لتكوين آلة.",
+"ب) مكونات إلكترونية تتفاعل لتعمل الأجهزة.",
+"ج) مواد البناء مثل الخرسانة والحديد لتشييد المباني."
+]
+},
+
+{
+question:"لو عندك مشروع تخرج، تختار:",
+options:[
+"أ) تصميم آلة أو نظام ميكانيكي يعمل بكفاءة.",
+"ب) تصميم نظام كهربائي أو إلكتروني ذكي.",
+"ج) تصميم مبنى أو جسر متين."
+]
+},
+
+{
+question:"أي نوع تفكير تحب؟",
+options:[
+"أ) تحليل حركة الأجزاء والتأكد من عملها بسلاسة.",
+"ب) تحليل كيفية انتقال الإشارات والطاقة بين الأجهزة.",
+"ج) تحليل توزيع القوى على المباني والهياكل لضمان الثبات."
+]
+},
+
+{
+question:"أي بيئة عمل تفضل؟",
+options:[
+"أ) مصانع ومعدات حيث تتحرك الآلات.",
+"ب) شركات تقنية وكهربائية حيث تعمل الأجهزة والأنظمة الذكية.",
+"ج) مواقع بناء حيث تُشيد المباني والجسور."
+]
+},
+
+{
+question:"أي إنجاز تحب تشوفه؟",
+options:[
+"أ) آلة أو جهاز ميكانيكي يعمل بكفاءة.",
+"ب) نظام كهربائي أو إلكتروني يعمل بشكل صحيح.",
+"ج) مبنى أو جسر تم إنشاؤه بنجاح."
+]
+},
+
+{
+question:"أي مشروع عالمي يثير اهتمامك؟",
+options:[
+"أ) تطوير سيارات أو طائرات.",
+"ب) محطات طاقة أو أنظمة ذكية.",
+"ج) مدن وجسور حديثة."
+]
+},
+
+{
+question:"لو زرت معرض هندسي، تتجه إلى:",
+options:[
+"أ) السيارات والآلات لمعرفة كيفية عملها.",
+"ب) الأجهزة والإلكترونيات لمعرفة كيفية عمل الأنظمة الذكية.",
+"ج) نماذج المدن والجسور لمشاهدة الهياكل الكبرى."
+]
+},
+
+{
+question:"تحب تشوف نتيجة عملك على شكل:",
+options:[
+"أ) آلة أو جهاز ميكانيكي يعمل بسلاسة.",
+"ب) نظام كهربائي أو إلكتروني يعمل بكفاءة.",
+"ج) مبنى أو جسر متين وعملي."
+]
+},
+
+{
+question:"أي شيء تحب تطوره؟",
+options:[
+"أ) تحسين حركة وكفاءة الآلات.",
+"ب) تحسين أداء الأنظمة الكهربائية والإلكترونية.",
+"ج) تحسين قوة وثبات المباني والهياكل."
+]
+},
+
+{
+question:"لو تعمل في فريق هندسي، أي دور يعجبك أكثر؟",
+options:[
+"أ) تصميم وتشغيل الآلات.",
+"ب) تصميم وتشغيل الأنظمة الكهربائية.",
+"ج) تصميم وإنشاء الهياكل والمباني."
+]
+},
+
+{
+question:"أي نوع مشكلة تحب حلها؟",
+options:[
+"أ) آلة لا تعمل بكفاءة وتحتاج تعديل.",
+"ب) نظام كهربائي لا يعمل كما يجب.",
+"ج) مشكلة في تصميم أو ثبات المبنى."
+]
+},
+
+// السؤال الحاسم الأخير
+{
+question:"لو أتيحت لك فرصة قيادة مشروع هندسي كبير، أي مشروع تختار؟",
+decisive:true,
+options:[
+"أ) تصميم نظام ميكانيكي لروبوت أو آلة متحركة تقوم بمهام معقدة.",
+"ب) تطوير نظام كهربائي ذكي يتحكم في الأجهزة والطاقة داخل مدينة أو مصنع.",
+"ج) تصميم جسر أو مبنى ضخم يتحمل الأحمال ويخدم آلاف الناس."
+]
+}
+
+];
+
+let currentQuestion=0;
+let userAnswers=[];
+
+const questionEl=document.getElementById("question");
+const optionsEl=document.getElementById("options");
+const nextBtn=document.getElementById("nextBtn");
+const prevBtn=document.getElementById("prevBtn");
+const progressBar=document.getElementById("progressBar");
+const quizPercentage=document.getElementById("quizPercentage");
+
+// إنشاء عنصر شريط السؤال الحاسم
+const decisiveBanner = document.createElement("div");
+decisiveBanner.classList.add("decisive-banner");
+decisiveBanner.innerText = "السؤال الحاسم ⛓️‍💥🎰";
+document.querySelector(".quiz-content").appendChild(decisiveBanner);
+
+function showDecisiveBanner(show) {
+  if(show){
+    decisiveBanner.classList.add("show");
+    setTimeout(() => {
+      decisiveBanner.classList.remove("show");
+    }, 6000);
+  }
+}
+
+function loadQuestion(){
+
+const q=questions[currentQuestion];
+
+questionEl.innerText=q.question;
+
+optionsEl.innerHTML="";
+
+nextBtn.style.display="none";
+
+prevBtn.style.display=currentQuestion>0?"flex":"none";
+
+q.options.forEach(option=>{
+
+const button=document.createElement("button");
+
+button.innerText=option;
+
+button.onclick=()=>{
+
+document.querySelectorAll(".options button").forEach(btn=>btn.classList.remove("selected"));
+
+button.classList.add("selected");
+
+nextBtn.style.display="block";
+
+};
+
+optionsEl.appendChild(button);
+
+});
+
+// اظهار شريط السؤال الحاسم للسؤال الحاسم
+if(q.decisive){
+  showDecisiveBanner(true);
+}
+
+let percent=Math.round((currentQuestion/questions.length)*100);
+
+quizPercentage.innerText=percent+"%";
+
+progressBar.style.height=percent+"%";
+
+}
+
+nextBtn.onclick=()=>{
+
+const selected=document.querySelector(".options button.selected");
+
+if(selected){
+
+userAnswers[currentQuestion]=selected.innerText;
+
+currentQuestion++;
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+}
+
+};
+
+prevBtn.onclick=()=>{
+
+currentQuestion--;
+
+loadQuestion();
+
+};
+function showResult() {
+
+systemOverlay.style.display="flex";
+systemOverlay.style.opacity="1";
+
+let mech=0;
+let elec=0;
+let civil=0;
+
+userAnswers.forEach(ans=>{
+
+let multiplier = 1;
+const qIndex = userAnswers.indexOf(ans);
+if(questions[qIndex].decisive) multiplier = 2;
+
+if(ans.startsWith("أ")) mech+=multiplier;
+else if(ans.startsWith("ب")) elec+=multiplier;
+else civil+=multiplier;
+
+});
+
+let result="";
+
+if(mech>elec && mech>civil){
+result="الهندسة الميكانيكية ⚙️";
+}
+else if(elec>mech && elec>civil){
+result="الهندسة الكهربائية ⚡";
+}
+else{
+result="الهندسة المدنية 🏗️";
+}
+
+systemOverlay.innerHTML=`
+
+<div class="result-container">
+
+<h2>تخصصك الهندسي هو:</h2>
+
+<button class="prev-btn result-prev-btn" id="resultPrevBtn">
+<span>➔</span> الرجوع لآخر سؤال
+</button>
+
+<div class="gears" id="gears"></div>
+
+<div class="result-text" id="resultText">
+جاري تحليل إجاباتك...
+</div>
+
+<div class="result-field" id="resultField">
+${result}
+</div>
+
+</div>
+
+`;
+
+document.getElementById("resultPrevBtn").onclick=()=>{
+
+systemOverlay.style.opacity="0";
+
+setTimeout(()=>{
+systemOverlay.style.display="none";
+currentQuestion=questions.length-1;
+loadQuestion();
+},500);
+
+};
+
+const gearsEl=document.getElementById("gears");
+const resultText=document.getElementById("resultText");
+const resultField=document.getElementById("resultField");
+
+resultField.style.display="none";
+
+let gearCount=0;
+
+const gearInterval=setInterval(()=>{
+
+if(gearCount<5){
+
+const span=document.createElement("span");
+span.innerText="⚙️";
+
+gearsEl.appendChild(span);
+
+gearCount++;
+
+}else{
+
+clearInterval(gearInterval);
+
+}
+
+},400);
+
+setTimeout(()=>{
+
+resultText.style.display="none";
+resultField.style.display="block";
+
+},3000);
+
+}
+loadQuestion();
+
 </script>
 
 </body>

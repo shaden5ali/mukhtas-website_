@@ -3,466 +3,334 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>معهد مختص العالي</title>
+<title>مسارك الهندسي</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:"Segoe UI",sans-serif;
+    font-family:'Cairo', sans-serif;
 }
 
 body{
-    min-height:100vh;
-    background:linear-gradient(135deg,#0b1220,#0f2f5e,#081a3a);
-    background-size:400% 400%;
-    animation:bgGradient 15s ease infinite;
-    color:white;
+    background:#fffdf7;
     overflow-x:hidden;
-}
-
-@keyframes bgGradient{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
-
-.bg{
-    position:fixed;
-    inset:0;
-    background:
-    radial-gradient(circle at 20% 20%,rgba(59,130,246,0.12),transparent 40%),
-    radial-gradient(circle at 80% 70%,rgba(99,102,241,0.10),transparent 40%);
-    z-index:-1;
-}
-
-/* الهيدر */
-.top-bar{
-    height:200px;
-    display:flex;
-    justify-content:center;
-    align-items:flex-end;
-    padding-bottom:30px;
     position:relative;
-    overflow:hidden;
 }
 
-.top-bar::after{
+/* ================= الدوائر الزخرفية ================= */
+
+body::before{
     content:"";
     position:absolute;
-    inset:0;
-    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.15),transparent);
-    animation:shine 6s infinite;
+    width:450px;
+    height:450px;
+    left:-150px;
+    top:-150px;
+    background:radial-gradient(circle,#ffb300 0%, #ff6f00 70%);
+    border-radius:50%;
+    opacity:0.15;
+    z-index:0;
+    animation: floatSlow 8s ease-in-out infinite;
 }
 
-@keyframes shine{
-    0%{transform:translateX(-100%);}
-    100%{transform:translateX(100%);}
+body::after{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    right:-120px;
+    bottom:-120px;
+    background:radial-gradient(circle,#ff9800 0%, #ff6f00 70%);
+    border-radius:50%;
+    opacity:0.12;
+    z-index:0;
+    animation: floatSlow 10s ease-in-out infinite;
 }
 
-.top-content{
+.extra-circle{
+    position:absolute;
+    width:220px;
+    height:220px;
+    background:radial-gradient(circle,#ffc107 0%, #ff9800 70%);
+    border-radius:50%;
+    top:80%;
+    left:15%;
+    opacity:0.08;
+    z-index:0;
+    animation: floatSlow 12s ease-in-out infinite;
+}
+
+@keyframes floatSlow{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-20px);}
+    100%{transform:translateY(0);}
+}
+
+/* ================= الهيدر ================= */
+
+header{
+    padding:20px 40px;
     display:flex;
+    justify-content:space-between;
     align-items:center;
-    gap:20px;
+    position:relative;
     z-index:2;
 }
 
-.top-content img{
-    width:70px;
-    border-radius:16px;
-    box-shadow:0 0 25px rgba(59,130,246,0.7);
+.logo{
+    font-size:22px;
+    font-weight:800;
+    color:#ff6f00;
 }
 
-.top-content h2{
-    font-size:32px;
+nav a{
+    text-decoration:none;
+    color:#555;
+    margin-right:20px;
+    font-weight:600;
+    position:relative;
 }
 
-/* الهيرو */
-.hero-section{
-    min-height:calc(100vh - 200px);
+nav a::after{
+    content:"";
+    position:absolute;
+    width:0;
+    height:2px;
+    background:#ff6f00;
+    bottom:-5px;
+    right:0;
+    transition:0.3s;
+}
+
+nav a:hover::after{
+    width:100%;
+}
+
+/* ================= القسم الرئيسي ================= */
+
+.hero{
+    min-height:90vh;
     display:flex;
-    justify-content:center;
     align-items:center;
-    text-align:center;
-    padding:80px 20px;
+    justify-content:center;
+    gap:80px;
+    padding:40px;
+    position:relative;
+    z-index:2;
+    flex-wrap: wrap; /* يسمح بالتفاف العناصر عند صغر الشاشة */
 }
 
-.hero h1{
-    font-family:"Poppins",sans-serif;
+.content{
+    max-width:600px;
+    width: 100%;
+}
+
+.content h1{
     font-size:42px;
-    color:#60a5fa;
+    color:#ff6f00;
+    margin-bottom:20px;
+    animation: fadeIn 1.2s ease;
 }
 
-.hero h1 span{
-    display:block;
-    font-size:24px;
-    color:white;
-    margin-top:10px;
-}
-
-.hero p{
-    margin-top:25px;
+.content p{
     font-size:18px;
-    opacity:0.85;
-    line-height:1.8;
-}
-
-/* نص تسجيل الدخول بخطين مع حركة مشابه للاعتمادات */
-.login-title-animated {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:40px;
-    font-family:"Cairo",sans-serif;
-    font-weight:800;
-    font-size:40px;
-    color:#bfdbfe;
-    margin:60px 0 10px 0; /* خففنا المسافة للزمن بين النص والهيرو */
-}
-
-.login-title-animated span {
-    width:280px;
-    height:3px;
-    background:linear-gradient(90deg,transparent,#60a5fa,transparent);
-    position:relative;
-    overflow:hidden;
-    border-radius:50px;
-}
-
-.login-title-animated span::after {
-    content:"";
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:100%;
-    height:100%;
-    background:linear-gradient(90deg,transparent,white,transparent);
-    animation:lineMove 3s infinite;
-}
-
-@keyframes lineMove{
-    0%{left:-100%;}
-    100%{left:100%;}
-}
-
-/* زر ابدأ التقييم */
-#startBtn{
-
-    margin-top:70px;
-    margin-bottom:60px; 
-    padding:16px 48px;
-    font-size:22px;
-    border:none;
-    border-radius:40px;
-    background:linear-gradient(135deg,#1e3a8a,#0d204a);
-    font-family:"Arial", sans-serif;;
-    color:white;
-    cursor:pointer;
-    transition:0.3s;
-    position:relative;
-    overflow:hidden;
-    
-}
-
-
-#startBtn:hover{
-    transform:scale(1.05);
-}
-
-/* زر تسجيل الدخول */
-.login-btn{
-    display:block;
-    margin:20px auto 0 auto; /* يبقى في الوسط أفقيًا مع مسافة بسيطة من النص */
-    padding:16px 48px;
-    font-size:22px;
-    border:none;
-    border-radius:40px;
-    background:linear-gradient(135deg,#1e3a8a,#0d204a);
-    font-family: "Arial", sans-serif;;
-    color:white;
-    cursor:pointer;
-    transition:0.3s;
-    position:relative;
-    overflow:hidden;
-}
-
-.login-btn:hover{
-    transform:scale(1.05);
-}
-
-/* الاعتمادات والفوتر */
-.accredit{
-    padding:30px 20px;
-    text-align:center;
-}
-
-.title-line{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:40px;
-    font-size:40px;
-    font-family:"Cairo",sans-serif;
-    font-weight:800;
-    color:#bfdbfe;
-    letter-spacing:1px;
-    margin-bottom:60px;
-}
-
-.title-line span{
-    width:280px;
-    height:3px;
-    background:linear-gradient(90deg,transparent,#60a5fa,transparent);
-    position:relative;
-    overflow:hidden;
-    border-radius:50px;
-}
-
-.title-line span::after{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:100%;
-    height:100%;
-    background:linear-gradient(90deg,transparent,white,transparent);
-    animation:lineMove 3s infinite;
-}
-
-.accredit-logos{
-    display:flex;
-    justify-content:center;
-    gap:70px;
-    flex-wrap:wrap;
-}
-
-.circle{
-    width:200px;
-    height:200px;
-    border-radius:20px;
-    background:rgba(255,255,255,0.8);
-    backdrop-filter:blur(12px);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    box-shadow:0 25px 60px rgba(0,0,0,0.4);
-    transition:0.4s;
-}
-
-.circle:hover{
-    transform: scale(1.15);
-}
-
-.circle img{
-    width:140px;
-}
-
-.tr-logo{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    transform: scale(2.3);
-    filter: drop-shadow(0 0 30px rgba(37,99,235,0.6));
-}
-
-footer{
-    padding:120px 10% 40px;
-}
-
-.footer-container{
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:50px;
-}
-
-.footer-about,
-.footer-contact{
-    flex:1;
-    min-width:280px;
-}
-
-.footer-about p{
+    color:#555;
     line-height:1.9;
-    opacity:0.85;
-    margin-top:15px;
-}
-
-.social-icons{
-    margin-top:25px;
-    display:flex;
-    gap:15px;
-}
-
-.social-icons a{
-    width:40px;
-    height:40px;
-    border:1px solid rgba(255,255,255,0.4);
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:white;
-    text-decoration:none;
-}
-
-.contact-link{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:18px;
-    color:white;
-    text-decoration:none;
-}
-
-.contact-icon{
-    width:38px;
-    height:38px;
-    border:1px solid rgba(255,255,255,0.4);
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.footer-contact h2{
     margin-bottom:30px;
+    animation: fadeIn 1.8s ease;
 }
 
-.footer-bottom{
-    margin-top:40px;
-    padding-top:20px;
-    border-top:1px solid rgba(255,255,255,0.2);
-    text-align:center;
-    font-size:14px;
-    opacity:0.7;
+.start-btn{
+    padding:15px 45px;
+    font-size:18px;
+    border:none;
+    border-radius:50px;
+    background: linear-gradient(135deg,#ff6f00);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-@media(max-width:768px){
-    .footer-container{
+.start-btn:hover{
+    transform:scale(1.08);
+    box-shadow:0 10px 25px rgba(255,111,0,0.4);
+}
+
+/* ================= مربع الصور الجديد ================= */
+
+.images{
+    display:flex;
+    gap:25px;
+    align-items:center;
+    justify-content:center;
+    padding:35px;
+    border-radius:50px;
+    background:#fffdf7;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    animation: floatBox 6s ease-in-out infinite;
+    transition:0.4s ease;
+    flex-wrap: wrap; /* يسمح بالتفاف الصور */
+}
+
+.images:hover{
+    transform:scale(1.03);
+}
+
+.images img{
+    width:190px;
+    height:190px;
+    object-fit:cover;
+    border-radius:20px;
+    transition:0.4s ease;
+}
+
+.images img:hover{
+    transform:translateY(-8px) scale(1.05);
+}
+
+/* أنيميشن */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes floatBox{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
+    100%{transform:translateY(0);}
+}
+
+/* ================= الجوال ================= */
+
+@media(max-width:900px){
+
+    header{
         flex-direction:column;
+        gap:10px;
         text-align:center;
     }
-    .social-icons,
-    .contact-link{
+
+    nav{
+        margin-top:10px;
+    }
+
+    .hero{
+        flex-direction:column;
+        text-align:center;
+        gap:40px; /* تقليل المسافة بين المحتوى والصور */
+        padding:20px;
+    }
+
+    .content h1{
+        font-size:28px;
+        line-height:1.3;
+    }
+
+    .content p{
+        font-size:16px;
+        line-height:1.6;
+    }
+
+    .start-btn{
+        width:90%;
+        max-width:300px;
+        padding:12px 0;
+        font-size:16px;
+    }
+
+    .images{
+        flex-direction:row;
         justify-content:center;
+        gap:15px;
+        padding:20px;
+    }
+
+    .images img{
+        width:140px;
+        height:140px;
+    }
+
+    .extra-circle{
+        display:none;
     }
 }
 
-#overlay {
-    position: fixed;
-    inset:0;
-    background: rgba(0,0,0,0.8);
-    z-index:1000;
-    opacity:0;
-    pointer-events:none;
-    transition: opacity 0.4s;
+/* نص الحقوق */
+.credits{
+    text-align:center;
+    padding:40px 20px;
+    margin-top:0%;
+    color:#666;
 }
-#overlay.active {
-    opacity:1;
-    pointer-events:auto;
+
+.credits p{
+    font-size:16px;
+    line-height:1.9;
+}
+
+.credits hr{
+    width:60%;
+    margin:20px auto;
+    border:none;
+    height:1px;
+    background:#ffcc80;
 }
 </style>
 </head>
-
 <body>
-<div class="bg"></div>
 
-<div class="top-bar">
-    <div class="top-content">
-        <img src="../mm1.jpg">
-        <h2>معهد مختص العالي للتدريب</h2>
-    </div>
-</div>
+<div class="extra-circle"></div>
 
-<section class="hero-section">
-    <div class="hero">
-        <h1>Find Your Perfect Learning Path
-            <span>اعثر على مسارك التعليمي المثالي</span>
-        </h1>
+<header>
+    <div class="logo">انتم المستقبل</div>
+    <nav>
+        <a href="index.html">الرئيسية</a>
+        <a href="sours.html">عن الموقع</a>
+        <a href="content.html">تواصل معنا</a>
+    </nav>
+</header>
+
+<section class="hero">
+
+    <div class="content">
+        <h1>تحديد التخصص الهندسي وفق الميول الدراسية</h1>
         <p>
-            محتار أي البرامج مناسب لك؟<br>
-            دعنا نحدد لك أفضل مسار تدريبي خلال دقائق.
+        اختبار مصمم لقياس ميولك الأكاديمية وطبيعة تفكيرك التحليلي 
+        لمساعدتك في اختيار التخصص الهندسي الذي يناسبك أثناء الدراسة الجامعية.
         </p>
-        
-        <!-- زر ابدأ التقييم -->
-        <button id="startBtn" onclick="window.location.href='sections.html'">
-        ابدأ التقييم
-            
-        </button>
-
-        <!-- نص تسجيل الدخول بخطين مع حركة -->
-        <div class="login-title-animated">
-            <span></span>
-            تسجيل الدخول
-            <span></span>
-        </div>
-
-        <!-- زر تسجيل الدخول -->
-       <div class="login-container">
-            <button class="login-btn" style="margin:90px auto 0 auto; display:block;" onclick="window.location.href='save.php'">
-                تسجيل الدخول
-            </button>
-        </div>
-
+        <a href="quiz.html">
+        <button class="start-btn">  start  now </button>
+        </a>
     </div>
+
+    <div class="images">
+        <img src="engineer1.png" alt="">
+        <img src="engineer2.png" alt="">
+    </div>
+
 </section>
 
-<section class="accredit">
-    <h3 class="title-line">
-        <span></span>
-        المعهد معتمد من
-        <span></span>
-    </h3>
-    <div class="accredit-logos">
-        <div class="circle"><img src="../ai.png"></div>
-        <div class="circle"><img src="../mr.png"></div>
-        <div class="circle"><img src="../tr.png" class="tr-logo"></div>
-    </div>
-</section>
+<footer class="credits">
+    <p>
+        <i>
+        تم تطوير هذه الصفحة وتصميمها بواسطة مطوّرة الويب <strong>شادن علي</strong> |
+        كما تم استنباط فكرة المشروع وتقديم الدعم والمساعدة من قبل طالبة الهندسة <strong>إيلان سلمان</strong>.
+        </i>
+    </p>
 
-<footer>
-<div class="footer-container">
-    <div class="footer-about">
-        <h2>معهد مختص العالي للتدريب</h2>
-        <p>
-            تأسس معهد مختص العالي للتدريب عام 2004 بإعتماد من الجهات الرسمية
-            لتقديم برامج تدريبية احترافية للأفراد والمؤسسات.
-        </p>
-        <div class="social-icons">
-            <a href="https://www.instagram.com/mukhtas_co"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.snapchat.com/add/mukhtas.co"><i class="fab fa-snapchat-ghost"></i></a>
-            <a href="https://www.tiktok.com/@mukhtas_co"><i class="fab fa-tiktok"></i></a>
-        </div>
-    </div>
+    <hr>
 
-    <div class="footer-contact">
-        <h2>تواصل معنا</h2>
-        <a class="contact-link" href="https://wa.me/966538676677">
-            <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
-            +966538676677
-        </a>
-        <a class="contact-link" href="tel:+966538676677">
-            <div class="contact-icon"><i class="fas fa-mobile-alt"></i></div>
-            +966538676677
-        </a>
-        <a class="contact-link" href="mailto:info@mukhtas.co">
-            <div class="contact-icon"><i class="far fa-envelope"></i></div>
-            info@mukhtas.co
-        </a>
-    </div>
-</div>
-
-<div class="footer-bottom">
-    الحقوق محفوظة © 2026 معهد مختص العالي للتدريب
-</div>
+    <p>
+        <i>
+        The page was developed and designed by web developer <strong>Shaden Ali</strong> |
+        and the project idea was inspired and supported with the assistance of engineering student <strong>Eilan Salman</strong>.
+        </i>
+    </p>
 </footer>
-
-<div id="overlay"></div>
 
 </body>
 </html>

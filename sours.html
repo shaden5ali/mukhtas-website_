@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تواصل معنا | مسارك الهندسي</title>
+<title>عن الموقع | مسارك الهندسي</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 *{
@@ -22,7 +21,7 @@ body{
     position:relative;
 }
 
-/* ================= الدوائر الزخرفية ================= */
+/* الدوائر الزخرفية */
 body::before{
     content:"";
     position:absolute;
@@ -57,7 +56,7 @@ body::after{
     100%{transform:translateY(0);}
 }
 
-/* ================= الهيدر ================= */
+/* الهيدر */
 header{
     padding:20px 40px;
     display:flex;
@@ -96,58 +95,39 @@ nav a:hover::after{
     width:100%;
 }
 
-/* ================= القسم الرئيسي ================= */
-.contact-section{
+/* القسم الرئيسي بدون بوكس */
+.about-section{
     min-height:85vh;
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
-    padding:40px;
+    padding:60px 20px;
+    position:relative;
+    z-index:2;
 }
 
-.contact-box{
-    max-width:650px;
+.about-content{
+    max-width:850px;
     animation: fadeIn 1.5s ease;
 }
 
-.contact-box h1{
-    font-size:40px;
+.about-content h1{
+    font-size:42px;
     color:#ff6f00;
-    margin-bottom:20px;
+    margin-bottom:30px;
 }
 
-.contact-box p{
-    font-size:18px;
-    color:#555;
-    line-height:1.9;
-    margin-bottom:35px;
+.about-content p{
+    font-size:19px;
+    color:#444;
+    line-height:2.2;
+    margin-bottom:25px;
 }
 
-/* ===== الايقونات ===== */
-.social-icons{
-    display:flex;
-    justify-content:center;
-    gap:30px;
-}
-
-.social-icons a{
-    width:70px;
-    height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    font-size:28px;
-    color:white;
-    background:linear-gradient(135deg,#f9f7f6,#f4d892);
-    transition:0.4s;
-    text-decoration:none;
-}
-
-.social-icons a:hover{
-    transform:scale(1.1);
-    box-shadow:0 10px 25px rgba(255,111,0,0.4);
+.highlight{
+    color:#ff6f00;
+    font-weight:700;
 }
 
 @keyframes fadeIn{
@@ -155,7 +135,7 @@ nav a:hover::after{
     to{opacity:1; transform:translateY(0);}
 }
 
-/* ===== الجوال ===== */
+/* الجوال */
 @media(max-width:900px){
     header{
         flex-direction:column;
@@ -163,41 +143,51 @@ nav a:hover::after{
         text-align:center;
     }
 
-    .contact-box h1{
+    .about-content h1{
         font-size:28px;
+    }
+
+    .about-content p{
+        font-size:16px;
     }
 }
 </style>
 </head>
 <body>
 
-<div class="extra-circle"></div>
-
 <header>
-   <div class="logo"> انتم المستقبل</div>
+   <div class="logo">انتم المستقبل</div>
     <nav>
         <a href="index.html">الرئيسية</a>
-        <a href="sours.html">عن الموقع</a>
+        <a href="about.html">عن الموقع</a>
         <a href="content.html">تواصل معنا</a>
     </nav>
 </header>
 
-<section class="contact-section">
-    <div class="contact-box">
-        <h1>مهندساتنا ومهندسينا المبدعون</h1>
+<section class="about-section">
+    <div class="about-content">
+        <h1>فكرة الموقع</h1>
+
         <p>
-        للتواصل أو للاستفسار عن أي سؤال، أو لطلب تحديث الأسئلة بما يتوافق مع مقرراتكم الدراسية،
-        يسعدنا تواصلكم معنا في أي وقت.
+        انطلقت فكرة الموقع كمبادرة من طالبات جامعة القصيم، حيث قامت الطالبة 
+        <span class="highlight">إيلان سلمان</span>
+        بطرح فكرة إنشاء اختبار مبسط يهدف إلى مساعدة طلاب الهندسة على تحديد ميولهم بين التخصصات المختلفة مثل الهندسة الميكانيكية و الهندسة المدنية والهندسة الكهربائية.
         </p>
 
-        <div class="social-icons">
-            <a href="https://wa.me/966546575405" target="_blank">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-            <a href="https://www.instagram.com/shli8z/?hl=en" target="_blank">
-                <i class="fab fa-instagram"></i>
-            </a>
-        </div>
+        <p>
+        وتمت المساهمة في تطوير فكرة الاختبار ومحتواه ليكون واضحًا وسهلًا ومناسبًا لطلاب السنة الأولى، بحيث يساعدهم على فهم اهتماماتهم واتخاذ قرارهم الأكاديمي بثقة.
+        </p>
+
+        <p>
+         تولّت خريجة جامعة القصيم بتخصص تطوير الويب 
+        <span class="highlight">شادن علي</span>
+        مسؤولية تصميم وتنفيذ الموقع بالكامل، وتحويل الفكرة إلى منصة تفاعلية حديثة تقدم تجربة استخدام سلسة ومميزة.
+        </p>
+
+        <p>
+        نسعى من خلال هذا الموقع إلى دعم طلاب وطالبات الهندسة في رحلتهم الأكاديمية، وتمكينهم من اختيار التخصص الأنسب لهم بناءً على ميولهم واهتماماتهم.
+        </p>
+
     </div>
 </section>
 
